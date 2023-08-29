@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="style/normalize.css">
+  <link rel="stylesheet" href="style/style.css">
+  <link rel="stylesheet" href="style/keyframes.css">
+  <link rel="stylesheet" href="style/meida.css">
+  <script defer module src="JS/main.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="container wrapper">
+      <div class="header__container">
+        <a href="#" class="header__logo">
+          <img src="img/logo.svg" alt="logo">
+        </a>
+        <form class="header__form">
+          <div class="header__form-search">
+            <input type="text" class="header__input-search" placeholder="Введите запрос">
+            <ul class="header__search-list list-reset visible-hidden"></ul>
+          </div>
+        </form>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container main__container">
+      <div class="main__clients clients">
+        <h2 class="clients__title title-reset">Клиенты</h2>
+        <div class="clients__wrapper">
+          <table class="clients__table table"></table>
+        </div>
+        <button class="btn-reset clients__button">Добавить клиента</button>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
