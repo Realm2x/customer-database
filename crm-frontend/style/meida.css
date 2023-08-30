@@ -8,6 +8,12 @@
     display: block;
     margin-bottom: 7px;
   }
+
+  .preload__img {
+    width: 36px;
+    height: 36px;
+    background-size: 36px;
+  }
 }
 
 @media (max-width: 970px) {

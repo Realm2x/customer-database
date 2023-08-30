@@ -962,7 +962,6 @@
       searchLink.classList.add('header__search-link');
 
       searchLink.textContent = `${client.surname} ${client.name}`;
-      // searchLink.href = '#' + client.id;
 
       searchLink.addEventListener('click', () => {
         const el = document.getElementById(client.id);
@@ -1064,6 +1063,8 @@
     tbody.innerHTML = '';
 
     tbody.append(preload());
+    const buttonSave = document.querySelector('.clients__button');
+    buttonSave.classList.add('visible-hidden');
 
     let copyClientsArray = [...arrData];
 
@@ -1087,6 +1088,7 @@
       console.log(error);
     } finally {
       load.remove();
+      buttonSave.classList.remove('visible-hidden');
     }
   }
 
