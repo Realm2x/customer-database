@@ -4,26 +4,6 @@
     padding: 40px 20px;
   }
 
-  .table__contact-group {
-    margin-bottom: 0;
-  }
-
-  .table__contact-btn {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    -webkit-box-pack: center;
-        -ms-flex-pack: center;
-            justify-content: center;
-    -webkit-box-align: center;
-        -ms-flex-align: center;
-            align-items: center;
-  }
-
-  .table__contact-group:nth-child(1n + 5) {
-    display: none;
-  }
-
   .table__contact-group--active {
     display: block;
     margin-bottom: 7px;
@@ -106,5 +86,80 @@
 
   .contacts__input {
     padding: 8px 6px 9px;
+  }
+}
+
+@media (any-hover: hover) {
+
+  .header__search-link:hover:not(:active) {
+    background-color: rgba(176, 176, 176, 0.4);
+  }
+
+  .table__fio-link:hover:not(:active) {
+    color: var(--heliotrope);
+    border-bottom: 1px solid var(--heliotrope);
+    transition: border-color .2s ease-in-out;
+  }
+
+  .table__contact-img:hover:not(:active) {
+    opacity: 1;
+  }
+
+  .table__contact-group:hover:not(:active) .table__contact-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .table__btn-change:hover:not(:active) {
+    color: var(--heliotrope);
+  }
+
+  .table__btn-delete:hover:not(:active)  {
+    color: var(--burnt-sienna);
+  }
+
+  .clients__button:hover:not(:active) {
+    color: var(--white);
+    background-color: var(--melrose);
+    background-image: url(../img/add-client--hover.svg);
+  }
+
+  .form__button-contacts:hover:not(:active) {
+    color: var(--heliotrope);
+    background-image: url(../img/contacts--hover.svg);
+  }
+
+  .form__button-save:hover:not(:active) {
+    background-color: var(--melrose);
+  }
+
+  .form__button-cancel:hover:not(:active) {
+    color: var(--burnt-sienna);
+    border-color: transparent;
+  }
+
+  .contacts__button-select:hover:not(:active) {
+    background-color: rgba(231, 229, 235, 0.75);
+  }
+
+  .contacts__btn-delete:hover:not(:active) .contacts__tooltip-delete {
+    opacity: 1;
+    visibility: visible;
+    -webkit-transition: opacity .3s ease-in-out, visability .3s ease-in-out;
+    -o-transition: opacity .3s ease-in-out, visability .3s ease-in-out;
+    transition: opacity .3s ease-in-out, visability .3s ease-in-out;
+  }
+
+  .select__item:hover:not(:active) {
+    background-color: var(--mischka);
+  }
+
+  .modal__delete-agree:hover:not(:active) {
+    background-color: var(--melrose);
+  }
+
+  .modal__delete-cancel:hover:not(:active) {
+    color: var(--burnt-sienna);
+    border-color: transparent;
   }
 }

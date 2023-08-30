@@ -1,6 +1,7 @@
 html {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
+  scroll-behavior: smooth;
 }
 
 *,
@@ -225,10 +226,6 @@ img {
   transition: background .2s ease-in-out;
 }
 
-.header__search-link:hover {
-  background-color: rgba(176, 176, 176, 0.4);
-}
-
 .header__search-link:focus {
   background-color: rgba(176, 176, 176, 0.6);
 }
@@ -262,11 +259,14 @@ img {
   margin-bottom: 10px;
 }
 
+.clients__wrapper {
+  min-height: 300px;
+}
+
 .clients__table {
   width: 100%;
   max-width: 1186px;
   min-width: 728px;
-  min-height: 300px;
   margin-bottom: 30px;
   border-collapse: collapse;
 }
@@ -369,6 +369,11 @@ img {
   min-width: 195px;
 }
 
+.table__fio-link {
+  border-bottom: 1px solid transparent;
+  transition: color .2s ease-in-out, border-color .2s ease-in-out;
+}
+
 .table__td {
   height: 60px;
   padding: 10px;
@@ -403,6 +408,7 @@ img {
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
+  max-width: 108px;
 }
 
 .table__contact-group {
@@ -415,7 +421,11 @@ img {
   cursor: pointer;
 }
 
-.table__contact-group:nth-child(1n+5) {
+.table__contact-group:nth-child(5n) {
+  margin-right: 0;
+}
+
+.table__contact-group:nth-child(1n+6) {
   margin-bottom: 0;
 }
 
@@ -428,10 +438,6 @@ img {
   -webkit-transition: opacity .3s ease-in-out;
   -o-transition: opacity .3s ease-in-out;
   transition: opacity .3s ease-in-out;
-}
-
-.table__contact-img:hover {
-  opacity: 1;
 }
 
 .table__contact-tooltip {
@@ -454,33 +460,6 @@ img {
   -webkit-clip-path: polygon(100% 0, 0 0, 51% 100%);
           clip-path: polygon(100% 0, 0 0, 51% 100%);
   background-color: var(--mine-shaft);
-}
-
-.table__contact-group:hover .table__contact-tooltip {
-  opacity: 1;
-  visibility: visible;
-}
-
-.table__contact-btn {
-  display: none;
-  -ms-flex-item-align: center;
-      -ms-grid-row-align: center;
-      align-self: center;
-  width: 16px;
-  height: 16px;
-  border: 1px solid var(--heliotrope);
-  border-radius: 100%;
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 8px;
-  line-height: 10px;
-  color: var(--mine-shaft);
-  transition: background .3s ease-in-out, color .3s ease-in-out;
-}
-
-.table__contact-btn:hover {
-  background-color: var(--melrose);
-  color: var(--white);
 }
 
 .table__wrapper-btn {
@@ -536,14 +515,6 @@ img {
   margin-right: 30px;
 }
 
-.table__btn-change:hover {
-  color: var(--heliotrope);
-}
-
-.table__btn-delete:hover  {
-  color: var(--burnt-sienna);
-}
-
 .table__change-span--spinner {
   width: 12px;
   height: 12px;
@@ -588,12 +559,6 @@ img {
   -webkit-transition: color .3s ease-in-out, background .3s ease-in-out;
   -o-transition: color .3s ease-in-out, background .3s ease-in-out;
   transition: color .3s ease-in-out, background .3s ease-in-out;
-}
-
-.clients__button:hover {
-  color: var(--white);
-  background-color: var(--melrose);
-  background-image: url(../img/add-client--hover.svg);
 }
 
 .clients__button:focus {
@@ -797,11 +762,6 @@ img {
   transition: background .3s ease-in-out, color .3s ease-in-out;
 }
 
-.form__button-contacts:hover {
-  color: var(--heliotrope);
-  background-image: url(../img/contacts--hover.svg);
-}
-
 .form__button-contacts:focus {
   color: var(--heliotrope);
   background-image: url(../img/contacts--hover.svg);
@@ -836,10 +796,6 @@ img {
   transition: color .3s ease-in-out, background .3s ease-in-out;
 }
 
-.form__button-save:hover {
-  background-color: var(--melrose);
-}
-
 .form__button-save:focus {
   background-color: var(--electric-violet);
 }
@@ -856,11 +812,6 @@ img {
   -webkit-transition: color .3s ease-in-out, border-color .3s ease-in-out;
   -o-transition: color .3s ease-in-out, border-color .3s ease-in-out;
   transition: color .3s ease-in-out, border-color .3s ease-in-out;
-}
-
-.form__button-cancel:hover {
-  color: var(--burnt-sienna);
-  border-color: transparent;
 }
 
 .form__button-cancel:focus {
@@ -965,10 +916,6 @@ img {
   transition: transform .3s ease-in-out, -webkit-transform .3s ease-in-out;
 }
 
-.contacts__button-select:hover {
-  background-color: rgba(231, 229, 235, 0.75);
-}
-
 .select__wrapper--active .contacts__button-select::after {
   -webkit-transform: rotate(180deg);
       -ms-transform: rotate(180deg);
@@ -1056,14 +1003,6 @@ img {
   background-color: var(--mine-shaft);
 }
 
-.contacts__btn-delete:hover .contacts__tooltip-delete {
-  opacity: 1;
-  visibility: visible;
-  -webkit-transition: opacity .3s ease-in-out, visability .3s ease-in-out;
-  -o-transition: opacity .3s ease-in-out, visability .3s ease-in-out;
-  transition: opacity .3s ease-in-out, visability .3s ease-in-out;
-}
-
 .clients__change-title {
   margin-bottom: 15px;
 }
@@ -1111,10 +1050,6 @@ img {
   -webkit-transition: background .3s ease-in-out;
   -o-transition: background .3s ease-in-out;
   transition: background .3s ease-in-out;
-}
-
-.select__item:hover {
-  background-color: var(--mischka);
 }
 
 .select__item--hidden {
@@ -1216,10 +1151,6 @@ img {
   transition: background-color .3s ease-in-out;
 }
 
-.modal__delete-agree:hover {
-  background-color: var(--melrose);
-}
-
 .modal__delete-agree:focus {
   background-color: var(--gray-suit);
 }
@@ -1236,11 +1167,6 @@ img {
   -webkit-transition: color .3s ease-in-out, border-color .3s ease-in-out;
   -o-transition: color .3s ease-in-out, border-color .3s ease-in-out;
   transition: color .3s ease-in-out, border-color .3s ease-in-out;
-}
-
-.modal__delete-cancel:hover {
-  color: var(--burnt-sienna);
-  border-color: transparent;
 }
 
 .modal__delete-cancel:focus {

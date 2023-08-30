@@ -145,7 +145,7 @@
       if (regexp.test(modalClient.modalInputSurname.value)) {
         modalClient.modalInputSurname.classList.add('wrong');
         modalClient.textWrong.classList.remove('visible-hidden');
-        modalClient.textWrong.textContent = 'Недопустимые символы';
+        modalClient.textWrong.textContent = 'Допустимые символы (а-я, А-Я)';
         return;
       }
 
@@ -159,7 +159,7 @@
       if (regexp.test(modalClient.modalInputName.value)) {
         modalClient.modalInputName.classList.add('wrong');
         modalClient.textWrong.classList.remove('visible-hidden');
-        modalClient.textWrong.textContent = 'Недопустимые символы';
+        modalClient.textWrong.textContent = 'Допустимые символы (а-я, А-Я)';
         return;
       }
   
@@ -176,34 +176,26 @@
       let contacts = [];
 
       for (let i = 0; i < typesContact.length; i++) {
+        if (valueContact[i].value === '') {
+          valueContact[i].classList.add('wrong');
+          modalClient.textWrong.classList.remove('visible-hidden');
+          modalClient.textWrong.textContent = 'Заполните поле!';
+          return;
+        }
         if (typesContact[i].textContent === 'Телефон') {
-          if (valueContact[i].value === '' || valueContact[i].value.length !== 11) {
+          if (valueContact[i].value.length !== 11) {
             valueContact[i].classList.add('wrong');
             modalClient.textWrong.classList.remove('visible-hidden');
-            modalClient.textWrong.textContent = 'Введите корректный номер';
+            modalClient.textWrong.textContent = 'Введите корректный номер (11 цифр)';
             return;
           } 
         } else if (typesContact[i].textContent === 'Email') {
           if (valueContact[i].value.includes('@') !== true || valueContact[i].value.includes('.') !== true) {
             valueContact[i].classList.add('wrong');
             modalClient.textWrong.classList.remove('visible-hidden');
-            modalClient.textWrong.textContent = 'Введите корректную почту';
+            modalClient.textWrong.textContent = 'Введите корректную почту (a-z, A-Z (@/.))';
             return
           };
-        } else if (typesContact[i].textContent === 'Facebook') {
-          if (valueContact[i].value.includes('@') !== true) {
-            valueContact[i].classList.add('wrong');
-            modalClient.textWrong.classList.remove('visible-hidden');
-            modalClient.textWrong.textContent = 'Введите корректный адрес';
-            return
-          };
-        } else {
-          if (valueContact[i].value === '') {
-            valueContact[i].classList.add('wrong');
-            modalClient.textWrong.classList.remove('visible-hidden');
-            modalClient.textWrong.textContent = 'Заполните поле';
-            return
-          }
         }
         
         contacts.push({
@@ -254,6 +246,7 @@
     const tableBodyTr = document.createElement('tr'),
           tableBodyTdId = document.createElement('td'),
           tableBodyTdFIO = document.createElement('td'),
+          tableBodyTdFIOLink = document.createElement('a'),
           tableBodyTdCreate = document.createElement('td'),
           tableBodyTdChange = document.createElement('td'),
           tableBodyTdContact = document.createElement('td'),
@@ -271,7 +264,6 @@
           tableSpanTimeCreate = document.createElement('span'),
           tableSpanDateChange = document.createElement('span'),
           tableSpanTimeChange = document.createElement('span'),
-          contactGroupBtn = document.createElement('button'),
           classContactImg = 'table__contact-img',
           contacts = client.contacts,
           id = client.id;
@@ -279,6 +271,7 @@
     tableBodyTr.classList.add('table__body-tr');
     tableBodyTdId.classList.add('table__td', 'table__id');
     tableBodyTdFIO.classList.add('table__td', 'table__fio');
+    tableBodyTdFIOLink.classList.add('table__fio-link');
     tableBodyTdCreate.classList.add('table__td', 'table__create');
     tableBodyTdChange.classList.add('table__td', 'table__change');
     tableBodyTdContact.classList.add('table__td', 'table__contact');
@@ -296,16 +289,15 @@
     contactSpanType.classList.add('table__contact-type');
     actionButtonChangeSpinner.classList.add('table__change-span');
     actionButtonDeleteSpinner.classList.add('table__delete-span');
-    contactGroupBtn.classList.add('table__contact-btn');
     
     tableBodyTr.id = id;
-    tableBodyTdId.textContent = id.substr(0, 6);
-    tableBodyTdFIO.textContent = client.fio;
+    tableBodyTdId.textContent = id.substr(0, 10);
+    tableBodyTdFIOLink.textContent = client.fio;
+    tableBodyTdFIOLink.href = '#' + id;
     tableSpanDateCreate.textContent = formatDate(client.createdAt);
     tableSpanTimeCreate.textContent = formatTime(client.createdAt);
     tableSpanDateChange.textContent = formatDate(client.updatedAt);
     tableSpanTimeChange.textContent = formatTime(client.updatedAt);
-
 
     // добавляем контакты в Tooltip
     for (const contact of contacts) {
@@ -315,11 +307,6 @@
 
       contactGroup.classList.add('table__contact-group');
       contactTooltip.classList.add('table__contact-tooltip', 'tooltip');
-
-      if (contacts.length > 4) {
-        contactGroupBtn.textContent = '+' + (contacts.length - 4);
-        contactWrapper.append(contactGroupBtn);
-      }
 
       if (contacts.length <= 5) {
         contactGroup.classList.add('table__contact-group--correct');
@@ -367,7 +354,6 @@
 
     // Открываем модальное окно для изменения данных клиента
     actionButtonChange.addEventListener('click', function() {
-      window.location.hash = id;
       try {
         actionButtonChangeSpinner.classList.add('table__change-span--spinner');
         changeModaltClient(client);
@@ -386,9 +372,16 @@
       }
     })
 
+    // Hash-часть))
     if (window.location.hash.substring(1) === id) {
       actionButtonChange.click();
     }
+
+    window.addEventListener('hashchange', () => {
+      if (window.location.hash.substring(1) === id) {
+        actionButtonChange.click();
+      }
+    })
 
     // Удаляем клиента
     actionButtonDelete.addEventListener('click', async function() {
@@ -411,6 +404,7 @@
       })
     })
     
+    tableBodyTdFIO.append(tableBodyTdFIOLink)
     tableBodyTdContact.append(contactWrapper);
     tableBodyTdChange.append(tableSpanDateChange);
     tableBodyTdChange.append(tableSpanTimeChange);
@@ -503,7 +497,7 @@
       if (regexp.test(modalClient.modalInputSurname.value)) {
         modalClient.modalInputSurname.classList.add('wrong');
         modalClient.textWrong.classList.remove('visible-hidden');
-        modalClient.textWrong.textContent = 'Недопустимые символы';
+        modalClient.textWrong.textContent = 'Допустимые символы (а-я, А-Я)';
         return;
       }
 
@@ -517,7 +511,7 @@
       if (regexp.test(modalClient.modalInputName.value)) {
         modalClient.modalInputName.classList.add('wrong');
         modalClient.textWrong.classList.remove('visible-hidden');
-        modalClient.textWrong.textContent = 'Недопустимые символы';
+        modalClient.textWrong.textContent = 'Допустимые символы (а-я, А-Я)';
         return;
       }
   
@@ -529,34 +523,26 @@
       }
 
       for (let i = 0; i < typesContact.length; i++) {
+        if (valueContact[i].value === '') {
+          valueContact[i].classList.add('wrong');
+          modalClient.textWrong.classList.remove('visible-hidden');
+          modalClient.textWrong.textContent = 'Заполните поле!';
+          return;
+        }
         if (typesContact[i].textContent === 'Телефон') {
           if (valueContact[i].value === '' || valueContact[i].value.length !== 11) {
             valueContact[i].classList.add('wrong');
             modalClient.textWrong.classList.remove('visible-hidden');
-            modalClient.textWrong.textContent = 'Введите корректный номер';
+            modalClient.textWrong.textContent = 'Введите корректный номер (11 цифр)';
             return;
           } 
         } else if (typesContact[i].textContent === 'Email') {
           if (onlyEnglish.test(valueContact[i].value)) {
             valueContact[i].classList.add('wrong');
             modalClient.textWrong.classList.remove('visible-hidden');
-            modalClient.textWrong.textContent = 'Введите корректную почту';
+            modalClient.textWrong.textContent = 'Введите корректную почту (a-z, A-Z (@/.))';
             return
           };
-        } else if (typesContact[i].textContent === 'Facebook') {
-          if (valueContact[i].value.includes('@') !== true) {
-            valueContact[i].classList.add('wrong');
-            modalClient.textWrong.classList.remove('visible-hidden');
-            modalClient.textWrong.textContent = 'Введите корректный адрес';
-            return
-          };
-        } else {
-          if (valueContact[i].value === '') {
-            valueContact[i].classList.add('wrong');
-            modalClient.textWrong.classList.remove('visible-hidden');
-            modalClient.textWrong.textContent = 'Заполните поле';
-            return
-          }
         }
         contacts.push({
           type: typesContact[i].textContent,
@@ -976,9 +962,11 @@
       searchLink.classList.add('header__search-link');
 
       searchLink.textContent = `${client.surname} ${client.name}`;
-      searchLink.href = '#' + client.id;
+      // searchLink.href = '#' + client.id;
 
       searchLink.addEventListener('click', () => {
+        const el = document.getElementById(client.id);
+        el.scrollIntoView({block: 'center', inline: 'center'});
         searchInput.value = '';
         searchList.classList.add('visible-hidden');
         searchItem.classList.add('visible-hidden');
@@ -1098,7 +1086,7 @@
     } catch (error) {
       console.log(error);
     } finally {
-      load.remove()
+      load.remove();
     }
   }
 
@@ -1107,7 +1095,7 @@
   const createApp = async () => {
     const clients = await getServerClient();
     searchClient(clients);
-    document.querySelector('.header__search-list')
+    document.querySelector('.header__search-list');
   }
 
   createApp();
