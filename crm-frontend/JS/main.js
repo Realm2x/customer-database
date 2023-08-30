@@ -81,7 +81,6 @@
         tableHeadThContacts = document.createElement('th'),
         tableHeadThAction = document.createElement('th'),
         tableThClass = 'table__th'
-        searchInput = document.querySelector('.header__input-search')
         
   tableHeadThId.classList.add(tableThClass, 'table__th-id', 'sort-down', 'sort-up');
   tableHeadThName.classList.add(tableThClass, 'table__th-name', 'sort-down');
@@ -1062,7 +1061,7 @@
   function render(arrData) {
     tbody.innerHTML = '';
 
-    tbody.append(preload());
+    document.querySelector('.clients__wrapper').append(preload());
     const buttonSave = document.querySelector('.clients__button');
     buttonSave.classList.add('visible-hidden');
 
