@@ -168,4 +168,8 @@
     color: var(--burnt-sienna);
     border-color: transparent;
   }
+  
+  .client__contact-link:hover:not(:active) {
+    color: var(--melrose);
+  }
 }

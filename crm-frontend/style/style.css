@@ -42,7 +42,6 @@ body {
 }
 
 a {
-  cursor: pointer;
   color: inherit;
   text-decoration: none;
   outline: none;
@@ -87,7 +86,7 @@ img {
   --burnt-sienna: #F06A4D;
   --melrose: #B89EFF;
   --electric-violet: #8052FF;
-  --modal-wrapper: rgba(0, 0, 0, .5);
+  --modal-wrapper: rgba(0, 0, 0, 0.5);
   --mischka: #E7E5EB;
 }
 
@@ -220,6 +219,7 @@ img {
 
 .header__search-link {
   display: block;
+  cursor: pointer;
   padding: 10px 5px;
   -webkit-transition: background .2s ease-in-out;
   -o-transition: background .2s ease-in-out;
@@ -357,6 +357,7 @@ img {
 
 .table__body {
   position: relative;
+  background-color: var(--white);
 }
 
 .table__body-tr {
@@ -373,6 +374,12 @@ img {
 .table__fio-link {
   border-bottom: 1px solid transparent;
   transition: color .2s ease-in-out, border-color .2s ease-in-out;
+}
+
+.table__fio-link:focus-visible {
+  outline: 2px solid var(--heliotrope);
+  outline-offset: 3px;
+  color: var(--melrose);
 }
 
 .table__td {
@@ -1216,6 +1223,53 @@ img {
   border-color: var(--burnt-sienna);
 }
 
+/* Карточка клиента */
+
+.card {
+  position: relative;
+  max-width: 450px;
+  width: 100%;
+  padding: 25px;
+  background-color: var(--white);
+}
+
+.client__name {
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.client__contacts {
+  margin-bottom: 20px;
+  font-size: 18px;
+}
+
+.client__contact-group {
+  margin-bottom: 7px;
+}
+
+.client__contact-group:last-child {
+  margin-bottom: 0;
+}
+
+.client__contact-type {
+  margin-right: 10px;
+}
+
+.client__contact-link {
+  cursor: pointer;
+  color: var(--electric-violet);
+  transition: color .3s ease-in-out;
+}
+
+.client__contact-link:focus {
+  color: var(--heliotrope);
+}
+
+.client__contact-link:active {
+  color: var(--electric-violet);
+}
 
 /* Индикатор загрузки */
 

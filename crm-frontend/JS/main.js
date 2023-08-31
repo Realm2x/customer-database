@@ -11,7 +11,7 @@
         headers: {
           'Content-type': 'application/json',
         },
-      })
+      });
       let data = await response.json();
       return data;
     } catch (error) {
@@ -26,7 +26,19 @@
         headers: {
           'Content-type': 'application/json',
         },
-      })
+      });
+      let data = await response.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const searchServerClient = async (id) => {
+    try {
+      const response = await fetch(SERVER_URL + '/api/clients/' + id, {
+        method: "GET"
+      });
       let data = await response.json();
       return data;
     } catch (error) {
@@ -39,7 +51,7 @@
       await fetch(SERVER_URL + '/api/clients/' + id, {
         method: "PATCH",
         body: JSON.stringify(obj),
-      })
+      });
     } catch (error) {
       console.log(error);
     }
@@ -49,7 +61,7 @@
     try {
       const response = await fetch(SERVER_URL + '/api/clients/' + id, {
         method: "DELETE",
-      })
+      });
       let data = await response.json();
       return data;
     } catch (error) {
@@ -316,14 +328,12 @@
         contactImg.src = 'img/phone.svg';
         contactImg.classList.add(classContactImg);
         contactTooltip.textContent = contactSpanType.textContent + ': ' + contact.value;
-        contactGroup.href = `tel:${contact.value.trim()}`;
         contactGroup.append(contactImg);
       } else if (contact.type === 'Email') {
         contactSpanType.textContent = contact.type;
         contactImg.src = 'img/email.svg';
         contactImg.classList.add(classContactImg);
         contactTooltip.textContent = contactSpanType.textContent + ': ' + contact.value;
-        contactGroup.href = `mailto:${contact.value.trim()}`;
         contactGroup.append(contactImg);
       } else if (contact.type === 'Vk') {
         contactSpanType.textContent = contact.type;
@@ -368,17 +378,6 @@
         }
         
         actionButtonChangeSpinner.classList.remove('table__change-span--spinner');
-      }
-    })
-
-    // Hash-часть))
-    if (window.location.hash.substring(1) === id) {
-      actionButtonChange.click();
-    }
-
-    window.addEventListener('hashchange', () => {
-      if (window.location.hash.substring(1) === id) {
-        actionButtonChange.click();
       }
     })
 
@@ -960,6 +959,7 @@
       searchItem.classList.add('header__search-item');
       searchLink.classList.add('header__search-link');
 
+      searchLink.tabIndex = '0';
       searchLink.textContent = `${client.surname} ${client.name}`;
 
       searchLink.addEventListener('click', () => {
@@ -1014,6 +1014,78 @@
     .slice(0, pos) + '<mark>' + str
     .slice(pos, pos + leng) + '</mark>' + str
     .slice(pos + leng);
+  }
+
+
+  // Карточка клиента
+  const cardClient = async (id) => {
+    const wrapperCard = document.createElement('div'),
+          card = document.createElement('div'),
+          clientName = document.createElement('h2'),
+          clientContact = document.createElement('h2'),
+          clientButtonClose = document.createElement('button')
+    
+    const client = await searchServerClient(id);
+    wrapperCard.classList.add('modal__wrapper', 'modal__wrapper--active');
+    card.classList.add('card');
+    clientName.classList.add('client__name', 'title-reset');
+    clientContact.classList.add('client__contacts', 'title-reset');
+    clientButtonClose.classList.add('btn-reset', 'form__button-close');
+
+    clientName.textContent = client.surname + ' ' + client.name;
+    clientContact.textContent = 'Контакты';
+
+    card.append(clientName);
+    card.append(clientContact);
+    card.append(clientButtonClose);
+    wrapperCard.append(card);
+
+    for (const item of client.contacts) {
+      const clientGroupContacts = document.createElement('div');
+      const clientCardContactsInfo = document.createElement('span');
+      const clientCardContactsLink = document.createElement('a');
+
+      clientGroupContacts.classList.add('client__contact-group');
+      clientCardContactsInfo.classList.add('client__contact-type');
+      clientCardContactsLink.classList.add('client__contact-link');
+
+      if (item.type === 'Телефон') {
+        clientCardContactsLink.href = 'tel:' + item.value;
+      } else if (item.type === 'Email') {
+        clientCardContactsLink.href = 'mailto:' + item.value;
+      }
+      
+      clientCardContactsLink.textContent = item.value
+      clientCardContactsInfo.textContent = item.type + ':';
+      
+      clientGroupContacts.append(clientCardContactsInfo);
+      clientGroupContacts.append(clientCardContactsLink);
+      card.append(clientGroupContacts);
+    }
+    
+    clientButtonClose.addEventListener('click', e => {
+      e.preventDefault();
+
+      onClose(wrapperCard);
+    })
+  
+    document.addEventListener('keydown', e => {
+      if (e.key === "Escape") {
+        onClose(wrapperCard);
+      }
+    });
+    
+    card.addEventListener('click', event => {
+      event._isClickWithInModal = true;
+    });
+  
+    wrapperCard.addEventListener('click', event => {
+      if (event._isClickWithInModal) return;
+
+      onClose(wrapperCard);
+    })
+
+    main.append(wrapperCard);
   }
 
 
@@ -1097,6 +1169,19 @@
     const clients = await getServerClient();
     searchClient(clients);
     document.querySelector('.header__search-list');
+
+    // Hash-часть))
+    for (const client of clients) {
+      if (window.location.hash.substring(1) === client.id) {
+        cardClient(client.id);
+      }
+  
+      window.addEventListener('hashchange', () => {
+        if (window.location.hash.substring(1) === client.id) {
+          cardClient(client.id);
+        }
+      })
+    }
   }
 
   createApp();
