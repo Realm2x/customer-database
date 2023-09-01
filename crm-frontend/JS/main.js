@@ -153,7 +153,7 @@
 
       const regexp = /[^а-яА-ЯёЁ]+$/g;
 
-      if (regexp.test(modalClient.modalInputSurname.value)) {
+      if (regexp.test(modalClient.modalInputSurname.value.trim())) {
         modalClient.modalInputSurname.classList.add('wrong');
         modalClient.textWrong.classList.remove('visible-hidden');
         modalClient.textWrong.textContent = 'Допустимые символы (а-я, А-Я)';
@@ -167,7 +167,7 @@
         return;
       }
 
-      if (regexp.test(modalClient.modalInputName.value)) {
+      if (regexp.test(modalClient.modalInputName.value.trim())) {
         modalClient.modalInputName.classList.add('wrong');
         modalClient.textWrong.classList.remove('visible-hidden');
         modalClient.textWrong.textContent = 'Допустимые символы (а-я, А-Я)';
@@ -492,7 +492,7 @@
       const regexp = /[^а-яА-ЯёЁ]+$/g;
       const onlyEnglish = /[^a-zA-Z|@|.]+$/g;
 
-      if (regexp.test(modalClient.modalInputSurname.value)) {
+      if (regexp.test(modalClient.modalInputSurname.value.trim())) {
         modalClient.modalInputSurname.classList.add('wrong');
         modalClient.textWrong.classList.remove('visible-hidden');
         modalClient.textWrong.textContent = 'Допустимые символы (а-я, А-Я)';
@@ -506,7 +506,7 @@
         return;
       }
 
-      if (regexp.test(modalClient.modalInputName.value)) {
+      if (regexp.test(modalClient.modalInputName.value.trim())) {
         modalClient.modalInputName.classList.add('wrong');
         modalClient.textWrong.classList.remove('visible-hidden');
         modalClient.textWrong.textContent = 'Допустимые символы (а-я, А-Я)';
@@ -1032,7 +1032,7 @@
     clientContact.classList.add('client__contacts', 'title-reset');
     clientButtonClose.classList.add('btn-reset', 'form__button-close');
 
-    clientName.textContent = client.surname + ' ' + client.name;
+    clientName.textContent = client.surname + ' ' + client.name + ' ' + client.lastName;
     clientContact.textContent = 'Контакты';
 
     card.append(clientName);
