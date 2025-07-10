@@ -247,6 +247,47 @@ export const createClient = (
     return tableBodyTr;
 };
 
+// Функция создания заголовков таблицы
+const createTableHeader = (sortMark, sortDir, handleSort) => {
+    const thead = document.createElement("thead");
+    const headerRow = document.createElement("tr");
+
+    // Массив заголовков
+    const headers = [
+        { id: 'id', text: 'ID', classes: ['table__th', 'table__th-id'] },
+        { id: 'fio', text: 'ФИО', classes: ['table__th', 'table__th-name'] },
+        { id: 'createdAt', text: 'Дата и время создания', classes: ['table__th', 'table__th-create'] },
+        { id: 'updatedAt', text: 'Дата и время изменения', classes: ['table__th', 'table__th-change'] },
+        { id: 'contacts', text: 'Контакты', classes: ['table__th'] },
+        { id: 'actions', text: 'Действия', classes: ['table__th'] }
+    ];
+
+    headers.forEach((header) => {
+        const th = document.createElement("th");
+        th.textContent = header.text;
+        th.classList.add(...header.classes);
+
+        if (header.id === sortMark) {
+            th.classList.add(sortDir ? "sort-up" : "sort-down");
+        }
+
+        // Делаем кликабельными только нужные заголовки
+        if (
+            header.classes.includes("table__th-id") ||
+            header.classes.includes("table__th-name") ||
+            header.classes.includes("table__th-create") ||
+            header.classes.includes("table__th-change")
+        ) {
+            th.addEventListener("click", () => handleSort(header.id));
+        }
+
+        headerRow.appendChild(th);
+    });
+
+    thead.appendChild(headerRow);
+    return thead;
+};
+
 // Функция отрисовки таблицы
 export const renderTable = (
     updatedClients,
@@ -256,6 +297,24 @@ export const renderTable = (
     handleDeleteClient,
     mainElement
 ) => {
+    const table = tbody.parentElement;
+    table.innerHTML = ""; // Очищаем всю таблицу
+
+    // Добавляем обработчик сортировки
+    const handleSort = (newSortMark) => {
+        const newSortDir = sortMark === newSortMark ? !sortDir : true;
+        renderTable(
+            updatedClients,
+            newSortMark,
+            newSortDir,
+            tbody,
+            handleDeleteClient,
+            mainElement
+        );
+    };
+
+    table.appendChild(createTableHeader(sortMark, sortDir, handleSort));
+    table.appendChild(tbody);
     tbody.innerHTML = "";
 
     if (updatedClients.length === 0) {
